@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33717.318
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Dapr.Client", "Test.Dapr.Client\Test.Dapr.Client.csproj", "{9558A6E4-AF83-4306-A6B6-CDA91C31A427}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Dapr.Api", "Test.Dapr.Api\Test.Dapr.Api.csproj", "{81B022CC-C615-44C9-BD67-F05F45204BE7}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4D11462A-72A0-49F3-B1EF-FBA48150F593}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{EEBC351C-C2C2-4AF7-ADD9-22239F3F3E71}"
+	ProjectSection(SolutionItems) = preProject
+		dapr.yaml = dapr.yaml
+		readme.md = readme.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9558A6E4-AF83-4306-A6B6-CDA91C31A427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9558A6E4-AF83-4306-A6B6-CDA91C31A427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9558A6E4-AF83-4306-A6B6-CDA91C31A427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9558A6E4-AF83-4306-A6B6-CDA91C31A427}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81B022CC-C615-44C9-BD67-F05F45204BE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81B022CC-C615-44C9-BD67-F05F45204BE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81B022CC-C615-44C9-BD67-F05F45204BE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81B022CC-C615-44C9-BD67-F05F45204BE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D11462A-72A0-49F3-B1EF-FBA48150F593}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D11462A-72A0-49F3-B1EF-FBA48150F593}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D11462A-72A0-49F3-B1EF-FBA48150F593}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D11462A-72A0-49F3-B1EF-FBA48150F593}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5DABAB28-141B-4F9F-9BB2-16D517C442A2}
+	EndGlobalSection
+EndGlobal

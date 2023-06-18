@@ -1,0 +1,72 @@
+version: '3.4'
+
+services:
+  test.dapr.client:
+    image: ${DOCKER_REGISTRY-}testdaprclient
+    build:
+      context: .
+      dockerfile: Test.Dapr.Client/Dockerfile
+    ports:
+      - "7001:80"
+    #  - "3501:3500"
+    #environment:
+    #  - DAPR_HTTP_PORT=3500
+    depends_on:
+      - placement
+    networks:
+      - hello-dapr
+  myfrontend-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", 
+        "-app-id", "myfrontend", 
+        "-app-port", "80", # puerto de salida de la app
+        "-dapr-http-port", "3500", # puerto de escucha de dapr
+        "-components-path", "/components",
+        "-placement-host-address", "placement:50006"] # puerto de placement
+    volumes:
+        - "./components/:/components"
+    depends_on:
+      - test.dapr.client
+    network_mode: "service:test.dapr.client"
+
+
+
+  test.dapr.api:
+    image: ${DOCKER_REGISTRY-}testdaprapi
+    build:
+      context: .
+      dockerfile: Test.Dapr.Api/Dockerfile
+    ports:
+      - "7002:80"
+      - "3500:3500"
+    #environment:
+    #  - DAPR_HTTP_PORT=3500
+    depends_on:
+      - placement
+    networks:
+      - hello-dapr
+  mybackend-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", 
+        "-app-id", "mybackend", 
+        "-app-port", "80",
+        "-dapr-http-port", "3500",
+        "-components-path", "/components",
+        "-placement-host-address", "placement:50006"]
+    volumes:
+        - "./components/:/components"
+    depends_on:
+      - test.dapr.api
+    network_mode: "service:test.dapr.api"
+
+# servicio dapr que se encarga del descubrimiento de los contenedores
+  placement:
+    image: "daprio/dapr"
+    command: ["./placement", "-port", "50006", "-log-level", "debug"]
+    ports:
+      - "50006:50006"
+    networks:
+      - hello-dapr
+networks:
+    hello-dapr:
+      driver: bridge

@@ -1,0 +1,16 @@
+﻿@using System.Collections;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+</div>
+
+<div>
+    <h1>Env Vars</h1>
+    @foreach (DictionaryEntry item in Environment.GetEnvironmentVariables())
+    {
+        <p>@item.Key : @item.Value</p>
+    }
+</div>

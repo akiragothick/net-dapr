@@ -1,0 +1,9 @@
+version: 1
+apps:
+  - appDirPath: ./Test.Dapr.Api/
+    appID: MyBackEnd
+    appPort: 7001
+    command: ["dotnet", "run"]
+  - appID: MyFrontEnd
+    appDirPath: ./Test.Dapr.Client/
+    command: ["dotnet", "run"]
