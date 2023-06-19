@@ -1,5 +1,6 @@
 ﻿using Dapr.Client;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using Test.Dapr.Client.Models;
 
@@ -25,10 +26,12 @@ namespace Test.Dapr.Client.Controllers
 
                 var forecasts2 = await daprClient.InvokeMethodAsync<IEnumerable<WeatherForecast>>(
                                    HttpMethod.Get, "mybackend", "weatherforecast");
+
+                _logger.LogInformation("Recibiendo datos weatherforecast");
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Error recibiendo datos weatherforecast");
             }
            
             return View();

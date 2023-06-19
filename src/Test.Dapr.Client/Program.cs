@@ -11,6 +11,8 @@ builder.Services.AddControllersWithViews()
         opt.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     });
 
+builder.Logging.AddConsole();
+
 builder.Services.AddDaprClient();
 
 var app = builder.Build();
