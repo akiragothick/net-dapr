@@ -15,21 +15,24 @@ services:
       - placement
     networks:
       - alltogether
+
   myfrontend-dapr:
     image: "daprio/daprd:latest"
+    #image: "daprio/daprd:edge"
     command: [ "./daprd", 
         "-app-id", "myfrontend", 
         "-app-port", "80", # puerto de salida de la app
         "-dapr-http-port", "3500", # puerto de escucha de dapr
         "-components-path", "/components",
-        "-config", "/components/config.yaml",
+        "-config", "/configuration/config.yaml",
         "-placement-host-address", "placement:50006"] # puerto de placement
     volumes:
-      - ./dapr/components/docker-compose:/components
+      - ./dapr/components/:/components
+      - ./dapr/configuration/:/configuration
     depends_on:
       - test.dapr.client
     network_mode: "service:test.dapr.client"
-
+    restart: on-failure
 
 
   test.dapr.api:
@@ -58,13 +61,25 @@ services:
         "-app-port", "80",
         "-dapr-http-port", "3500",
         "-components-path", "/components",
-        "-config", "/components/config.yaml",
+        "-config", "/configuration/config.yaml",
         "-placement-host-address", "placement:50006"]
     volumes:
-      - ./dapr/components/docker-compose:/components
+      - ./dapr/components/:/components
+      - ./dapr/configuration/:/configuration
     depends_on:
       - test.dapr.api
     network_mode: "service:test.dapr.api"
+    restart: on-failure
+
+# Discovery Server
+  #consul:
+  #  image: "consul"
+  #  ports:      
+  #    - 8500:8500
+  #  environment:
+  #    - CONSUL_BIND_INTERFACE=eth0
+  #  networks:
+  #    - alltogether
 
 # Observavility
   zipkin:

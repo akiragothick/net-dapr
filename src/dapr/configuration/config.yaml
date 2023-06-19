@@ -1,9 +1,12 @@
 apiVersion: dapr.io/v1alpha1
 kind: Configuration
 metadata:
-  name: tracing
-  namespace: default
+  name: appconfig
 spec:
+  #nameResolution:
+  #  component: "consul"
+    #configuration:
+    #  selfRegister: true
   tracing:
     samplingRate: "1"
     zipkin:      

@@ -25,6 +25,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker-compose", "docker-compose", "{44AB7BE9-C7D3-4212-9D49-8E2100308CE4}"
 	ProjectSection(SolutionItems) = preProject
 		dapr\components\docker-compose\config.yaml = dapr\components\docker-compose\config.yaml
+		dapr\components\docker-compose\consul.yaml = dapr\components\docker-compose\consul.yaml
 	EndProjectSection
 EndProject
 Global
