@@ -27,6 +27,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configurat
 		dapr\configuration\config.yaml = dapr\configuration\config.yaml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tmp", "tmp", "{1F7376E6-2BC2-495E-BE60-38DDB0A39FA0}"
+	ProjectSection(SolutionItems) = preProject
+		dapr\tmp\prometheus.yml = dapr\tmp\prometheus.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +57,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C880336C-CAA7-4B5C-B8A8-9A900B166D68} = {1BE0166E-63F8-46D2-B061-D78BC9CF6CFA}
 		{FBDFEF31-4524-46B5-8633-73EB5B27B110} = {1BE0166E-63F8-46D2-B061-D78BC9CF6CFA}
+		{1F7376E6-2BC2-495E-BE60-38DDB0A39FA0} = {1BE0166E-63F8-46D2-B061-D78BC9CF6CFA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5DABAB28-141B-4F9F-9BB2-16D517C442A2}
