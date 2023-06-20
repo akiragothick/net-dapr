@@ -17,15 +17,39 @@ namespace Test.Dapr.Client.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             try
             {
                 var client = DaprClient.CreateInvokeHttpClient();
-                var forecasts1 = await client.GetFromJsonAsync<IEnumerable<WeatherForecast>>("http://mybackend/weatherforecast");
+                //var forecasts1 = await client.GetFromJsonAsync<IEnumerable<WeatherForecast>>("http://mybackend/weatherforecast");
 
-                var forecasts2 = await daprClient.InvokeMethodAsync<IEnumerable<WeatherForecast>>(
-                                   HttpMethod.Get, "mybackend", "weatherforecast");
+                //var forecasts2 = await daprClient.InvokeMethodAsync<IEnumerable<WeatherForecast>>(
+                //                   HttpMethod.Get, "mybackend", "weatherforecast");
+
+                Thread backgroundThread1 = new Thread(new ThreadStart(async () => {
+                    await client.GetFromJsonAsync<IEnumerable<WeatherForecast>>("http://mybackend/weatherforecast");
+
+                    await daprClient.InvokeMethodAsync<IEnumerable<WeatherForecast>>(HttpMethod.Get, "mybackend", "weatherforecast");
+                }));
+
+                backgroundThread1.Start();
+
+                Thread backgroundThread2 = new Thread(new ThreadStart(async () => {
+                    await client.GetFromJsonAsync<IEnumerable<WeatherForecast>>("http://mybackend/weatherforecast");
+
+                    await daprClient.InvokeMethodAsync<IEnumerable<WeatherForecast>>(HttpMethod.Get, "mybackend", "weatherforecast");
+                }));
+
+                backgroundThread2.Start();
+
+                Thread backgroundThread3 = new Thread(new ThreadStart(async () => {
+                    await client.GetFromJsonAsync<IEnumerable<WeatherForecast>>("http://mybackend/weatherforecast");
+
+                    await daprClient.InvokeMethodAsync<IEnumerable<WeatherForecast>>(HttpMethod.Get, "mybackend", "weatherforecast");
+                }));
+
+                backgroundThread3.Start();
 
                 _logger.LogInformation("Recibiendo datos weatherforecast");
             }
@@ -33,7 +57,7 @@ namespace Test.Dapr.Client.Controllers
             {
                 _logger.LogError(ex, "Error recibiendo datos weatherforecast");
             }
-           
+
             return View();
         }
 

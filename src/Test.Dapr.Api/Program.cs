@@ -24,9 +24,9 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-app.MapGet("/weatherforecast", ([FromServices] ILogger<Program> logger) =>
+app.MapGet("/weatherforecast", async ([FromServices] ILogger<Program> logger) =>
 {
-    //await Task.Delay(TimeSpan.FromSeconds(2));
+    await Task.Delay(TimeSpan.FromSeconds(2));
 
     logger.LogInformation("Generando datos weatherforecast");
 

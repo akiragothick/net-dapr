@@ -12,3 +12,5 @@ spec:
     zipkin:      
       endpointAddress: "http://zipkin:9411/api/v2/spans" 
       #endpointAddress: "http://jaeger:9412/api/v2/spans"
+  metrics:
+    enabled: true

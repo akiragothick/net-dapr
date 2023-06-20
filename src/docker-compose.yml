@@ -40,14 +40,14 @@ services:
     build:
       context: .
       dockerfile: Test.Dapr.Api/Dockerfile
-    ports:
-      - "7002:80"
+    #ports:
+    #  - "7002:80"
       #- "3500:3500"
     #ports:
     #   - "80"
     #   - "3500:3500"
     #deploy:
-    #  replicas: 4
+    #  replicas: 2
     #environment:
     #  - DAPR_HTTP_PORT=3500
     depends_on:
@@ -70,6 +70,36 @@ services:
       - test.dapr.api
     network_mode: "service:test.dapr.api"
     restart: on-failure
+
+################
+  #test.dapr.api.clone:
+  #  image: ${DOCKER_REGISTRY-}testdaprapi-clone
+  #  build:
+  #    context: .
+  #    dockerfile: Test.Dapr.Api/Dockerfile
+  #  ports:
+  #    - "7003:80"
+  #  depends_on:
+  #    - placement
+  #  networks:
+  #    - alltogether
+  #mybackend-dapr.clone:
+  #  image: "daprio/daprd:latest"
+  #  command: [ "./daprd", 
+  #      "-app-id", "mybackend", 
+  #      "-app-port", "80",
+  #      "-dapr-http-port", "3500",
+  #      "-components-path", "/components",
+  #      "-config", "/configuration/config.yaml",
+  #      "-placement-host-address", "placement:50006"]
+  #  volumes:
+  #    - ./dapr/components/:/components
+  #    - ./dapr/configuration/:/configuration
+  #  depends_on:
+  #    - test.dapr.api.clone
+  #  network_mode: "service:test.dapr.api.clone"
+  #  restart: on-failure
+################
 
 # Discovery Server
   #consul:
@@ -101,6 +131,48 @@ services:
   #    - LOG_LEVEL=debug
   #  networks:
   #    - alltogether
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:      
+      - 8080:8080
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--web.listen-address=:8080"
+    volumes:
+      - ./dapr/tmp/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - alltogether
+  
+  grafana:
+    image: grafana/grafana:latest
+    ports:      
+      - 3000:3000
+    #volumes:
+    #  - grafana-data:/var/lib/grafana
+    #  - ./dapr/grafana/provisioning/:/etc/grafana/provisioning/
+    #env_file:
+    #  - ./dapr/grafana/config.monitoring
+    networks:
+      - alltogether
+    restart: always
+
+  #grafana:
+  #  image: grafana/grafana
+  #  user: "472"
+  #  depends_on:
+  #    - prometheus
+  #  ports:
+  #    - 3000:3000
+  #  volumes:
+  #    - grafana_data:/var/lib/grafana
+  #    - ./grafana/provisioning/:/etc/grafana/provisioning/
+  #  env_file:
+  #    - ./grafana/config.monitoring
+  #  networks:
+  #    - back-tier
+  #    - front-tier
+  #  restart: always
 
 # servicio dapr que se encarga del descubrimiento de los contenedores
   placement:
