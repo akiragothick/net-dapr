@@ -17,7 +17,7 @@ namespace Test.Dapr.Client.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
@@ -27,7 +27,8 @@ namespace Test.Dapr.Client.Controllers
                 //var forecasts2 = await daprClient.InvokeMethodAsync<IEnumerable<WeatherForecast>>(
                 //                   HttpMethod.Get, "mybackend", "weatherforecast");
 
-                Thread backgroundThread1 = new Thread(new ThreadStart(async () => {
+                Thread backgroundThread1 = new Thread(new ThreadStart(async () =>
+                {
                     await client.GetFromJsonAsync<IEnumerable<WeatherForecast>>("http://mybackend/weatherforecast");
 
                     await daprClient.InvokeMethodAsync<IEnumerable<WeatherForecast>>(HttpMethod.Get, "mybackend", "weatherforecast");
@@ -35,7 +36,8 @@ namespace Test.Dapr.Client.Controllers
 
                 backgroundThread1.Start();
 
-                Thread backgroundThread2 = new Thread(new ThreadStart(async () => {
+                Thread backgroundThread2 = new Thread(new ThreadStart(async () =>
+                {
                     await client.GetFromJsonAsync<IEnumerable<WeatherForecast>>("http://mybackend/weatherforecast");
 
                     await daprClient.InvokeMethodAsync<IEnumerable<WeatherForecast>>(HttpMethod.Get, "mybackend", "weatherforecast");
@@ -43,7 +45,8 @@ namespace Test.Dapr.Client.Controllers
 
                 backgroundThread2.Start();
 
-                Thread backgroundThread3 = new Thread(new ThreadStart(async () => {
+                Thread backgroundThread3 = new Thread(new ThreadStart(async () =>
+                {
                     await client.GetFromJsonAsync<IEnumerable<WeatherForecast>>("http://mybackend/weatherforecast");
 
                     await daprClient.InvokeMethodAsync<IEnumerable<WeatherForecast>>(HttpMethod.Get, "mybackend", "weatherforecast");

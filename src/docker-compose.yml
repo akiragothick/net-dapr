@@ -111,7 +111,7 @@ services:
   #  networks:
   #    - alltogether
 
-# Observavility
+
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
@@ -135,10 +135,10 @@ services:
   prometheus:
     image: prom/prometheus:latest
     ports:      
-      - 8080:8080
+      - 7070:7070
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
-      - "--web.listen-address=:8080"
+      - "--web.listen-address=:7070"
     volumes:
       - ./dapr/tmp/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
@@ -173,6 +173,18 @@ services:
   #    - back-tier
   #    - front-tier
   #  restart: always
+  
+  #seq:
+  #  image: datalust/seq:latest
+  #  ports:
+  #    - 80:80
+  #    - 5341:5341
+  #  environment:
+  #    - ACCEPT_EULA=Y
+  #  volumes:
+  #    - ./dapr/logging/seq/:/data
+  #  networks:
+  #    - alltogether
 
 # servicio dapr que se encarga del descubrimiento de los contenedores
   placement:

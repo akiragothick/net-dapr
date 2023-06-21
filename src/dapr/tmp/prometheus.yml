@@ -10,7 +10,7 @@ scrape_configs:
     scrape_interval: 5s
 
     static_configs:
-      - targets: ['localhost:8080'] # Replace with Dapr metrics port if not default
+      - targets: ['localhost:7070'] # Replace with Dapr metrics port if not default
   
 
 
