@@ -140,7 +140,7 @@ services:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--web.listen-address=:7070"
     volumes:
-      - ./dapr/tmp/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./dapr/configuration/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - alltogether
   
@@ -157,34 +157,48 @@ services:
       - alltogether
     restart: always
 
-  #grafana:
-  #  image: grafana/grafana
-  #  user: "472"
-  #  depends_on:
-  #    - prometheus
-  #  ports:
-  #    - 3000:3000
-  #  volumes:
-  #    - grafana_data:/var/lib/grafana
-  #    - ./grafana/provisioning/:/etc/grafana/provisioning/
-  #  env_file:
-  #    - ./grafana/config.monitoring
-  #  networks:
-  #    - back-tier
-  #    - front-tier
-  #  restart: always
-  
-  #seq:
-  #  image: datalust/seq:latest
-  #  ports:
-  #    - 80:80
-  #    - 5341:5341
-  #  environment:
-  #    - ACCEPT_EULA=Y
-  #  volumes:
-  #    - ./dapr/logging/seq/:/data
-  #  networks:
-  #    - alltogether
+  ##### fluent-bit #####
+  fluent-bit:
+    image: fluent/fluent-bit:1.7.2
+    container_name: "fluentbit_service"
+    hostname: "fluentbit_service"
+    depends_on:
+      - seq-input-gelf
+    ports:
+      - 24224:24224 # Forward input plugin
+      - 24220:24220 # built-in HTTP Server
+    volumes:
+      - "./dapr/configuration/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro"
+    networks:
+      - alltogether
+    restart: always
+
+  ##### Seq #####
+  seq:
+    image: datalust/seq:latest
+    #ports:
+    #  - 80:80
+    #  - 5341:5341
+    ports:
+      - "8191:80"
+    environment:
+      - ACCEPT_EULA=Y
+    volumes:
+      - ./dapr/logging/seq/:/data
+    networks:
+      - alltogether
+  seq-input-gelf:
+    image: datalust/seq-input-gelf:latest
+    container_name: "seq-input-gelf"
+    depends_on:
+      - seq
+    ports:
+      - "12201:12201/udp"
+    environment:
+      SEQ_ADDRESS: "http://seq:5341"
+    networks:
+      - alltogether
+    restart: unless-stopped
 
 # servicio dapr que se encarga del descubrimiento de los contenedores
   placement:

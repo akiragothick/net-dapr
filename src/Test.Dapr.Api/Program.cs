@@ -11,7 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Logging.AddConsole();
 
 //var daprClient = new DaprClientBuilder().Build();
-//builder.Configuration.AddDaprSecretStore("local-secret-store", daprClient);
+//builder.Configuration.AddDaprSecretStore("localsecretstore", daprClient);
 
 var app = builder.Build();
 
@@ -35,6 +35,8 @@ app.MapGet("/weatherforecast", async ([FromServices] ILogger<Program> logger, [F
     var secrets = await daprClient.GetSecretAsync("localsecretstore", "redisPassword");
     var secrets2 = await daprClient.GetSecretAsync("localsecretstore", "connectionStrings");
     var data22 = secrets2["mysql:username"];
+
+    //var asdasd = configuration["connectionStrings:mysql:username"];
 
     await Task.Delay(TimeSpan.FromSeconds(2));
 
